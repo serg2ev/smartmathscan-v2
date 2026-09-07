@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMARTMATHSCAN</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .crossword-container {
+            position: relative;
+            display: inline-block;
+            background: #111;
+            transform-origin: center center; 
+        }
+
+        .bg-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .cell {
+            position: absolute;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: transparent;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="crossword-container">
+        <img src="board.png" alt="Кроссворд" class="bg-image">
+        
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="89.55" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="89.55" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="89.55" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="89.55" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="89.55" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="89.55" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="79.65" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="69.75" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="59.85" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="49.95" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="40.05" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="30.15" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="21" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="11.20" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="59.85" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="59.85" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="59.85" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="59.85" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="59.85" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="69.75" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="69.75" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="69.75" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="69.75" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="69.75" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="69.75" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="79.65" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="79.65" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="79.65" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="79.65" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="79.65" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="49.95" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="49.95" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="49.95" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="49.95" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="49.95" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="40.05" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="40.05" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="40.05" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="40.05" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="30.15" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="30.15" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="30.15" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="30.15" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="30.15" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="21.00" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="21.00" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="21.00" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="21.00" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="21.00" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="11.20" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="11.20" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="11.20" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="11.20" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="11.20" data-width="9.10" data-height="11.30">
+        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="11.20" data-width="9.10" data-height="11.30">
+
+    </div>
+
+    <script>
+        const img = document.querySelector('.bg-image');
+        const container = document.querySelector('.crossword-container');
+        const cells = document.querySelectorAll('.cell');
+
+        function applyCellLayout() {
+            cells.forEach(cell => {
+                const top = Number(cell.dataset.top || 0);
+                const left = Number(cell.dataset.left || 0);
+                const width = Number(cell.dataset.width || 4);
+                const height = Number(cell.dataset.height || 4);
+
+                cell.style.top = top + '%';
+                cell.style.left = left + '%';
+                cell.style.width = width + '%';
+                cell.style.height = height + '%';
+            });
+        }
+
+        function fitBoard() {
+            if (!img.complete || !img.naturalWidth || !img.naturalHeight) return;
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const boardRatio = img.naturalWidth / img.naturalHeight;
+            const viewportRatio = viewportWidth / viewportHeight;
+
+            let boardWidth, boardHeight;
+
+            if (viewportRatio > boardRatio) {
+                boardHeight = viewportHeight;
+                boardWidth = boardHeight * boardRatio;
+            } else {
+                boardWidth = viewportWidth;
+                boardHeight = boardWidth / boardRatio;
+            }
+
+            container.style.width = boardWidth + 'px';
+            container.style.height = boardHeight + 'px';
+        }
+
+        if (img.complete) {
+            fitBoard();
+        } else {
+            img.addEventListener('load', fitBoard);
+        }
+
+        applyCellLayout();
+
+        cells.forEach(cell => {
+            cell.addEventListener('input', (e) => {
+                let value = e.target.value;
+                if (value.length > 0) {
+                    e.target.value = value.charAt(0).toUpperCase();
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            const active = document.activeElement;
+            if (!active || !active.classList.contains('cell')) return;
+
+            const currentTop = parseFloat(active.dataset.top);
+            const currentLeft = parseFloat(active.dataset.left);
+
+            let bestMatch = null;
+            let minScore = Infinity;
+
+            cells.forEach(cell => {
+                if (cell === active) return;
+                const top = parseFloat(cell.dataset.top);
+                const left = parseFloat(cell.dataset.left);
+
+                let score = Infinity;
+
+                if (e.key === 'ArrowRight' && left > currentLeft) {
+                    score = (left - currentLeft) + Math.abs(top - currentTop) * 4;
+                } else if (e.key === 'ArrowLeft' && left < currentLeft) {
+                    score = (currentLeft - left) + Math.abs(top - currentTop) * 4;
+                } else if (e.key === 'ArrowDown' && top > currentTop) {
+                    score = (top - currentTop) + Math.abs(left - currentLeft) * 4;
+                } else if (e.key === 'ArrowUp' && top < currentTop) {
+                    score = (currentTop - top) + Math.abs(left - currentLeft) * 4;
+                }
+
+                if (score < minScore) {
+                    minScore = score;
+                    bestMatch = cell;
+                }
+            });
+
+            if (bestMatch) {
+                e.preventDefault();
+                bestMatch.focus();
+                bestMatch.select();
+            }
+        });
+// === НАЧАЛО БЛОКА: ИСПРАВЛЕНИЕ СКРОЛЛА ОДНИМ ПАЛЬЦЕМ ДЛЯ МОБИЛОК ===
+        let isDragging = false;
+        let startX = 0, startY = 0;
+        let lastX = 0, lastY = 0;
+        let isScrollGesture = false;
+
+        container.addEventListener('touchstart', (e) => {
+            // Обрабатываем только ОДИН палец. Если пальцев 2 и более — отдаем управление родному зуму смартфона
+            if (e.touches.length === 1) {
+                isDragging = true;
+                isScrollGesture = false;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                lastX = startX;
+                lastY = startY;
+            }
+        }, { passive: true });
+
+        container.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+
+            // Вычисляем, на сколько пикселей сдвинулся палец относительно предыдущего шага
+            const deltaX = currentX - lastX;
+            const deltaY = currentY - lastY;
+
+            // Если палец прошел больше 7 пикселей от точки старта — это скролл, а не просто клик по ячейке
+            if (!isScrollGesture) {
+                const moveX = currentX - startX;
+                const moveY = currentY - startY;
+                if (Math.abs(moveX) > 7 || Math.abs(moveY) > 7) {
+                    isScrollGesture = true;
+                }
+            }
+
+            // Если зафиксирован жест скролла
+            if (isScrollGesture) {
+                if (e.cancelable) e.preventDefault(); // Принудительно отменяем выделение текста и появление лупы
+                window.scrollBy(-deltaX, -deltaY);    // Скроллим страницу вручную вслед за пальцем
+            }
+
+            lastX = currentX;
+            lastY = currentY;
+        }, { passive: false }); // passive: false критически важен, чтобы e.preventDefault() сработал
+
+        container.addEventListener('touchend', () => { isDragging = false; });
+        container.addEventListener('touchcancel', () => { isDragging = false; });
+        // === КОНЕЦ БЛОКА ===
+        window.addEventListener('resize', fitBoard);
+    </script>
+</body>
+</html>
