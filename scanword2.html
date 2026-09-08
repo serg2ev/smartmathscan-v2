@@ -6,32 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMARTMATHSCAN-V2</title>
     <style>
-      
         body {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            width: 100vw;
+            width: 100%;
+            
             background-color: #f0f2f5;
             margin: 0;
-            padding: 60px 0 8px 0;
+            padding: 60px 10px 8px 10px;
             
-            overflow: auto;
+            overflow-x: hidden;
+            
             font-family: Arial, Helvetica, sans-serif;
             box-sizing: border-box;
         }
 
+        .crossword-container {
+            position: relative;
+            display: inline-block;
+            background: #111;
+            transform-origin: center center;
+            container-type: inline-size;
+            
+            max-width: 100%;
+        }
+
+        .cell {
+            position: absolute;
+            text-align: center;
+            font-size: 5.5cqw;
+            
+            font-weight: bold;
+            text-transform: uppercase;
+            background: transparent;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            color: #000;
+            padding: 0;
+            line-height: 1;
+        }
+
         .top-nav {
             position: fixed;
-            
+
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            
+
             z-index: 1000;
-            
+
 
             display: flex;
             gap: 8px;
@@ -51,25 +78,11 @@
             padding: 6px 14px;
             border-radius: 6px;
             font-size: 14px;
-            
+
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s ease, transform 0.1s ease;
             white-space: nowrap;
-        }
-
-        .cell {
-            position: absolute;
-            text-align: center;
-            font-size: 20px;
-            
-            font-weight: bold;
-            text-transform: uppercase;
-            background: transparent;
-            border: none;
-            outline: none;
-            box-sizing: border-box;
-            color: #000;
         }
 
         .nav-btn:active {
@@ -98,14 +111,6 @@
 
         .btn-5:hover {
             background: rgba(204, 255, 204, 0.3);
-        }
-
-        .crossword-container {
-            zoom: 120%;
-            position: relative;
-            display: inline-block;
-            background: #111;
-            transform-origin: center center;
         }
 
         .bg-image {
@@ -152,7 +157,7 @@
         .check-btn:active {
             transform: scale(0.96);
         }
-        
+
         .nav-btn.btn-2.active~.check-btn {
             background: #ced8bf;
             color: #111;
@@ -327,10 +332,11 @@
             if (!img.complete || !img.naturalWidth || !img.naturalHeight) return;
 
             const nav = document.querySelector('.top-nav');
-            const navHeight = nav ? nav.offsetHeight + 20 : 0;
+            const navHeight = nav ? nav.offsetHeight + 15 : 0;
 
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight - navHeight;
+            
+            const viewportWidth = (window.innerWidth || document.documentElement.clientWidth) - 20;
+            const viewportHeight = window.innerHeight - navHeight - 10;
 
             const boardRatio = img.naturalWidth / img.naturalHeight;
             const viewportRatio = viewportWidth / viewportHeight;
@@ -468,7 +474,7 @@
             });
         }
 
-      
+
         function saveProgress() {
             const progress = Array.from(cells).map(cell => {
                 let status = '';

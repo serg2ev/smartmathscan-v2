@@ -12,14 +12,42 @@
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            width: 100vw;
+            width: 100%;
+            
             background-color: #f0f2f5;
             margin: 0;
-            padding: 60px 0 8px 0;
+            padding: 60px 10px 8px 10px;
             
-            overflow: auto;
+            overflow-x: hidden;
+            
             font-family: Arial, Helvetica, sans-serif;
             box-sizing: border-box;
+        }
+
+        .crossword-container {
+            position: relative;
+            display: inline-block;
+            background: #111;
+            transform-origin: center center;
+            container-type: inline-size;
+            
+            max-width: 100%;
+        }
+
+        .cell {
+            position: absolute;
+            text-align: center;
+            font-size: 5.5cqw;
+            
+            font-weight: bold;
+            text-transform: uppercase;
+            background: transparent;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            color: #000;
+            padding: 0;
+            line-height: 1;
         }
 
         .top-nav {
@@ -57,20 +85,6 @@
             white-space: nowrap;
         }
 
-        .cell {
-            position: absolute;
-            text-align: center;
-            font-size: 40px;
-            
-            font-weight: bold;
-            text-transform: uppercase;
-            background: transparent;
-            border: none;
-            outline: none;
-            box-sizing: border-box;
-            color: #000;
-        }
-
         .nav-btn:active {
             transform: scale(0.96);
         }
@@ -97,13 +111,6 @@
 
         .btn-5:hover {
             background: rgba(204, 255, 204, 0.3);
-        }
-
-        .crossword-container {
-            position: relative;
-            display: inline-block;
-            background: #111;
-            transform-origin: center center;
         }
 
         .bg-image {
@@ -313,10 +320,11 @@
             if (!img.complete || !img.naturalWidth || !img.naturalHeight) return;
 
             const nav = document.querySelector('.top-nav');
-            const navHeight = nav ? nav.offsetHeight + 20 : 0;
+            const navHeight = nav ? nav.offsetHeight + 15 : 0;
 
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight - navHeight;
+            
+            const viewportWidth = (window.innerWidth || document.documentElement.clientWidth) - 20;
+            const viewportHeight = window.innerHeight - navHeight - 10;
 
             const boardRatio = img.naturalWidth / img.naturalHeight;
             const viewportRatio = viewportWidth / viewportHeight;
