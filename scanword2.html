@@ -13,13 +13,13 @@
             align-items: center;
             min-height: 100vh;
             width: 100%;
-            
+
             background-color: #f0f2f5;
             margin: 0;
             padding: 60px 10px 8px 10px;
-            
+
             overflow-x: hidden;
-            
+
             font-family: Arial, Helvetica, sans-serif;
             box-sizing: border-box;
         }
@@ -30,15 +30,15 @@
             background: #111;
             transform-origin: center center;
             container-type: inline-size;
-            
+
             max-width: 100%;
         }
 
         .cell {
             position: absolute;
             text-align: center;
-            font-size: 5.5cqw;
-            
+            font-size: 4.2cqw;
+
             font-weight: bold;
             text-transform: uppercase;
             background: transparent;
@@ -52,37 +52,68 @@
 
         .top-nav {
             position: fixed;
-
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-
             z-index: 1000;
 
-
             display: flex;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 6px 12px;
-            border-radius: 6px;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 8px;
+            border-radius: 8px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            max-height: 42px;
+
+            
+            max-width: calc(100vw - 16px);
+            overflow-x: auto;
+            
+            white-space: nowrap;
             box-sizing: border-box;
+
+            
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            
+        }
+
+        .top-nav::-webkit-scrollbar {
+            display: none;
+            
         }
 
         .nav-btn {
             color: #111;
             text-decoration: none;
-            padding: 6px 14px;
+            padding: 6px 10px;
+            
             border-radius: 6px;
-            font-size: 14px;
-
+            font-size: 13px;
+            
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s ease, transform 0.1s ease;
             white-space: nowrap;
+            flex-shrink: 0;
+            
+        }
+
+        .check-btn {
+            background: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 4px;
+            transition: background 0.2s, transform 0.1s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .nav-btn:active {
@@ -137,19 +168,6 @@
             text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
         }
 
-        .check-btn {
-            background: #2ecc71;
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 8px;
-            transition: background 0.2s, transform 0.1s;
-        }
-
         .check-btn:hover {
             background: #27ae60;
         }
@@ -165,6 +183,13 @@
 
         .check-btn:hover {
             filter: brightness(0.9);
+        }
+
+        @media (max-width: 600px) {
+            .cell {
+                font-size: 3.8cqw;
+                
+            }
         }
     </style>
 </head>
@@ -334,7 +359,7 @@
             const nav = document.querySelector('.top-nav');
             const navHeight = nav ? nav.offsetHeight + 15 : 0;
 
-            
+
             const viewportWidth = (window.innerWidth || document.documentElement.clientWidth) - 20;
             const viewportHeight = window.innerHeight - navHeight - 10;
 
