@@ -1,28 +1,109 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMARTMATHSCAN</title>
+    <title>SMARTMATHSCAN-V2</title>
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             width: 100vw;
             background-color: #f0f2f5;
             margin: 0;
-            padding: 0;
+            padding: 60px 0 8px 0;
+            
             overflow: auto;
             font-family: Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .top-nav {
+            position: fixed;
+            
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            
+            z-index: 1000;
+            
+
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 6px 12px;
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-height: 42px;
+            box-sizing: border-box;
+        }
+
+        .nav-btn {
+            color: #111;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            white-space: nowrap;
+        }
+
+        .cell {
+            position: absolute;
+            text-align: center;
+            font-size: 40px;
+            
+            font-weight: bold;
+            text-transform: uppercase;
+            background: transparent;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            color: #000;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-1:hover {
+            background: rgba(253, 151, 152, 0.1);
+        }
+
+        .btn-1.active {
+            background: #fd9798;
+        }
+
+        .btn-2:hover {
+            background: rgba(206, 216, 191, 0.25);
+        }
+
+        .btn-3:hover {
+            background: rgba(222, 234, 246, 0.50);
+        }
+
+        .btn-4:hover {
+            background: rgba(255, 203, 153, 0.25);
+        }
+
+        .btn-5:hover {
+            background: rgba(204, 255, 204, 0.3);
         }
 
         .crossword-container {
             position: relative;
             display: inline-block;
             background: #111;
-            transform-origin: center center; 
+            transform-origin: center center;
         }
 
         .bg-image {
@@ -35,81 +116,178 @@
             pointer-events: none;
         }
 
-        .cell {
-            position: absolute;
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            background: transparent;
+        .cell.correct {
+            color: #2ecc71 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .cell.incorrect {
+            color: #e74c3c !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .check-btn {
+            background: #2ecc71;
+            color: #fff;
             border: none;
-            outline: none;
-            box-sizing: border-box;
-            color: #000;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .check-btn:hover {
+            background: #27ae60;
+        }
+
+        .check-btn:active {
+            transform: scale(0.96);
+        }
+
+        .nav-btn.btn-1.active~.check-btn {
+            background: #fd9798;
+            color: #111;
+        }
+
+        .check-btn:hover {
+            filter: brightness(0.9);
         }
     </style>
 </head>
+
 <body>
 
-    <div class="crossword-container">
-        <img src="board.png" alt="Кроссворд" class="bg-image">
-        
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="89.55" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="89.55" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="89.55" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="89.55" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="89.55" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="89.55" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="79.65" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="69.75" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="59.85" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="49.95" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="40.05" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="30.15" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="21" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="15.00" data-left="11.20" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="59.85" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="59.85" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="59.85" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="59.85" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="59.85" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="69.75" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="69.75" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="69.75" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="69.75" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="69.75" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="69.75" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="79.65" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="79.65" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="79.65" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="79.65" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="79.65" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="49.95" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="49.95" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="49.95" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="49.95" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="49.95" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="40.05" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="40.05" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="40.05" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="40.05" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="30.15" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="30.15" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="30.15" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="30.15" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="30.15" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="21.00" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="21.00" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="21.00" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="21.00" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="21.00" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="26.50" data-left="11.20" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="38.00" data-left="11.20" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="49.50" data-left="11.20" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="61.00" data-left="11.20" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="72.50" data-left="11.20" data-width="9.10" data-height="11.30">
-        <input type="text" maxlength="1" class="cell" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-top="84.00" data-left="11.20" data-width="9.10" data-height="11.30">
+    <nav class="top-nav">
+        <a href="index.html" class="nav-btn btn-1 active">№1</a>
+        <a href="scanword2.html" class="nav-btn btn-2">№2</a>
+        <a href="scanword3.html" class="nav-btn btn-3">№3</a>
+        <a href="scanword4.html" class="nav-btn btn-4">№4</a>
+        <a href="scanword5.html" class="nav-btn btn-5">№5</a>
+        <button id="btnCheck" class="check-btn">Проверить</button>
+    </nav>
 
+    <div class="crossword-container">
+        <img src="board1.png" alt="Кроссворд" class="bg-image">
+
+        <input type="text" maxlength="1" class="cell" data-top="15" data-left="20" data-width="9.8" data-height="11.5"
+            data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="30.00" data-width="9.80"
+            data-height="11.50" data-answer="К">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="40.00" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="50.00" data-width="9.80"
+            data-height="11.50" data-answer="О">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="60.00" data-width="9.80"
+            data-height="11.50" data-answer="Р">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="70.00" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="80.00" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="90.00" data-width="9.80"
+            data-height="11.50" data-answer="Л">
+        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="10.00" data-width="9.80"
+            data-height="11.50" data-answer="Ф">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="10.00" data-width="9.80"
+            data-height="11.50" data-answer="У">
+        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="10.00" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="10.00" data-width="9.80"
+            data-height="11.50" data-answer="К">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="10.00" data-width="9.80"
+            data-height="11.50" data-answer="Ц">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="10.00" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="10.00" data-width="9.80"
+            data-height="11.50" data-answer="З">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="20.00" data-width="9.80"
+            data-height="11.50" data-answer="Р">
+        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="20.00" data-width="9.80"
+            data-height="11.50" data-answer="Г">
+        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="20.00" data-width="9.80"
+            data-height="11.50" data-answer="У">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="20.00" data-width="9.80"
+            data-height="11.50" data-answer="М">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="20.00" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="20.00" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="30.00" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="30.00" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="30.00" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="30.00" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="30.00" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="40.00" data-width="9.80"
+            data-height="11.50" data-answer="В">
+        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="40.00" data-width="9.80"
+            data-height="11.50" data-answer="Ш">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="40.00" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="40.00" data-width="9.80"
+            data-height="11.50" data-answer="Р">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="50.00" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="50.00" data-width="9.80"
+            data-height="11.50" data-answer="Д">
+        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="50.00" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="50.00" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="50.00" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="50.00" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="60.00" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="60.00" data-width="9.80"
+            data-height="11.50" data-answer="Д">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="60.00" data-width="9.80"
+            data-height="11.50" data-answer="Л">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="60.00" data-width="9.80"
+            data-height="11.50" data-answer="Д">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="60.00" data-width="9.80"
+            data-height="11.50" data-answer="О">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="70.00" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="70.00" data-width="9.80"
+            data-height="11.50" data-answer="У">
+        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="70.00" data-width="9.80"
+            data-height="11.50" data-answer="С">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="70.00" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="70.00" data-width="9.80"
+            data-height="11.50" data-answer="Ч">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="80.00" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="80.00" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="80.00" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="80.00" data-width="9.80"
+            data-height="11.50" data-answer="У">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="80.00" data-width="9.80"
+            data-height="11.50" data-answer="К">
+        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="90.00" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="90.00" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="90.00" data-width="9.80"
+            data-height="11.50" data-answer="С">
+        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="90.00" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="90.00" data-width="9.80"
+            data-height="11.50" data-answer="Р">
     </div>
 
     <script>
@@ -134,8 +312,12 @@
         function fitBoard() {
             if (!img.complete || !img.naturalWidth || !img.naturalHeight) return;
 
+            const nav = document.querySelector('.top-nav');
+            const navHeight = nav ? nav.offsetHeight + 20 : 0;
+
             const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+            const viewportHeight = window.innerHeight - navHeight;
+
             const boardRatio = img.naturalWidth / img.naturalHeight;
             const viewportRatio = viewportWidth / viewportHeight;
 
@@ -209,14 +391,13 @@
                 bestMatch.select();
             }
         });
-// === НАЧАЛО БЛОКА: ИСПРАВЛЕНИЕ СКРОЛЛА ОДНИМ ПАЛЬЦЕМ ДЛЯ МОБИЛОК ===
+
         let isDragging = false;
         let startX = 0, startY = 0;
         let lastX = 0, lastY = 0;
         let isScrollGesture = false;
 
         container.addEventListener('touchstart', (e) => {
-            // Обрабатываем только ОДИН палец. Если пальцев 2 и более — отдаем управление родному зуму смартфона
             if (e.touches.length === 1) {
                 isDragging = true;
                 isScrollGesture = false;
@@ -233,11 +414,9 @@
             const currentX = e.touches[0].clientX;
             const currentY = e.touches[0].clientY;
 
-            // Вычисляем, на сколько пикселей сдвинулся палец относительно предыдущего шага
             const deltaX = currentX - lastX;
             const deltaY = currentY - lastY;
 
-            // Если палец прошел больше 7 пикселей от точки старта — это скролл, а не просто клик по ячейке
             if (!isScrollGesture) {
                 const moveX = currentX - startX;
                 const moveY = currentY - startY;
@@ -246,20 +425,106 @@
                 }
             }
 
-            // Если зафиксирован жест скролла
             if (isScrollGesture) {
-                if (e.cancelable) e.preventDefault(); // Принудительно отменяем выделение текста и появление лупы
-                window.scrollBy(-deltaX, -deltaY);    // Скроллим страницу вручную вслед за пальцем
+                if (e.cancelable) e.preventDefault();
+                window.scrollBy(-deltaX, -deltaY);
             }
 
             lastX = currentX;
             lastY = currentY;
-        }, { passive: false }); // passive: false критически важен, чтобы e.preventDefault() сработал
+        }, { passive: false });
 
         container.addEventListener('touchend', () => { isDragging = false; });
         container.addEventListener('touchcancel', () => { isDragging = false; });
-        // === КОНЕЦ БЛОКА ===
+
         window.addEventListener('resize', fitBoard);
+
+        const SCANWORD_ID = 'scanword_1';
+
+        const checkBtn = document.getElementById('btnCheck');
+        const hiddenAnswers = new Map();
+
+        function obfuscateAnswers() {
+            cells.forEach((cell, index) => {
+                const answer = cell.dataset.answer;
+                if (answer) {
+                    hiddenAnswers.set(index, btoa(encodeURIComponent(answer.trim().toUpperCase())));
+                    cell.removeAttribute('data-answer');
+                }
+            });
+        }
+
+        function saveProgress() {
+            const progress = Array.from(cells).map(cell => {
+                let status = '';
+                if (cell.classList.contains('correct')) status = 'correct';
+                if (cell.classList.contains('incorrect')) status = 'incorrect';
+
+                return {
+                    value: cell.value,
+                    status: status
+                };
+            });
+            sessionStorage.setItem(`scanword_progress_${SCANWORD_ID}`, JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = sessionStorage.getItem(`scanword_progress_${SCANWORD_ID}`);
+            if (!saved) return;
+
+            try {
+                const progress = JSON.parse(saved);
+                cells.forEach((cell, index) => {
+                    const item = progress[index];
+                    if (!item) return;
+                    if (typeof item === 'string') {
+                        cell.value = item;
+                    } else {
+                        cell.value = item.value || '';
+                        if (item.status) {
+                            cell.classList.add(item.status);
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Ошибка загрузки прогресса:', e);
+            }
+        }
+
+        if (checkBtn) {
+            checkBtn.addEventListener('click', () => {
+                cells.forEach((cell, index) => {
+                    const userVal = cell.value.trim().toUpperCase();
+                    cell.classList.remove('correct', 'incorrect');
+
+                    if (!userVal || !hiddenAnswers.has(index)) return;
+
+                    const userHash = btoa(encodeURIComponent(userVal));
+                    if (userHash === hiddenAnswers.get(index)) {
+                        cell.classList.add('correct');
+                    } else {
+                        cell.classList.add('incorrect');
+                    }
+                });
+
+                saveProgress();
+            });
+        }
+
+        cells.forEach(cell => {
+            cell.addEventListener('input', (e) => {
+                let value = e.target.value;
+                if (value.length > 0) {
+                    e.target.value = value.charAt(0).toUpperCase();
+                }
+                cell.classList.remove('correct', 'incorrect');
+                saveProgress();
+            });
+        });
+
+        obfuscateAnswers();
+        loadProgress();
     </script>
 </body>
+
 </html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMARTMATHSCAN-V2</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 60px 0 8px 0;
+            
+            overflow: auto;
+            font-family: Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .top-nav {
+            position: fixed;
+            
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            
+            z-index: 1000;
+            
+
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 6px 12px;
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-height: 42px;
+            box-sizing: border-box;
+        }
+
+        .nav-btn {
+            color: #111;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            white-space: nowrap;
+        }
+
+        .cell {
+            position: absolute;
+            text-align: center;
+            font-size: 40px;
+            
+            font-weight: bold;
+            text-transform: uppercase;
+            background: transparent;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            color: #000;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-1:hover {
+            background: rgba(253, 151, 152, 0.1);
+        }
+
+        .btn-2:hover {
+            background: rgba(206, 216, 191, 0.25);
+        }
+
+        .btn-3:hover {
+            background: rgba(222, 234, 246, 0.50);
+        }
+
+        .btn-4:hover {
+            background: rgba(255, 203, 153, 0.25);
+        }
+
+        .btn-4.active {
+            background: #ffcb99;
+        }
+
+        .btn-5:hover {
+            background: rgba(204, 255, 204, 0.3);
+        }
+
+        .btn-5.active {
+            background: #ccffcc;
+        }
+
+        .crossword-container {
+            position: relative;
+            display: inline-block;
+            background: #111;
+            transform-origin: center center;
+        }
+
+        .bg-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .cell.correct {
+            color: #2ecc71 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .cell.incorrect {
+            color: #e74c3c !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .check-btn {
+            background: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .check-btn:hover {
+            background: #27ae60;
+        }
+
+        .check-btn:active {
+            transform: scale(0.96);
+        }
+
+        .nav-btn.btn-5.active~.check-btn {
+            background: #ccffcc;
+            color: #111;
+        }
+
+        .check-btn:hover {
+            filter: brightness(0.9);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <a href="index.html" class="nav-btn btn-1">№1</a>
+        <a href="scanword2.html" class="nav-btn btn-2">№2</a>
+        <a href="scanword3.html" class="nav-btn btn-3">№3</a>
+        <a href="scanword4.html" class="nav-btn btn-4">№4</a>
+        <a href="scanword5.html" class="nav-btn btn-5 active">№5</a>
+        <button id="btnCheck" class="check-btn">Проверить</button>
+    </nav>
+
+    <div class="crossword-container">
+        <img src="board5.png" alt="Кроссворд" class="bg-image">
+
+        <input type="text" maxlength="1" class="cell" data-top="15.51" data-left="21.14" data-width="9.8"
+            data-height="11.5" data-answer="В">
+        <input type="text" maxlength="1" class="cell" data-top="15.30" data-left="30.51" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="15.10" data-left="39.68" data-width="9.80"
+            data-height="11.50" data-answer="Д">
+        <input type="text" maxlength="1" class="cell" data-top="15.61" data-left="49.03" data-width="9.80"
+            data-height="11.50" data-answer="Р">
+        <input type="text" maxlength="1" class="cell" data-top="15.51" data-left="58.75" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="15.71" data-left="68.38" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="15.51" data-left="78.44" data-width="9.80"
+            data-height="11.50" data-answer="О">
+        <input type="text" maxlength="1" class="cell" data-top="15.51" data-left="89.30" data-width="9.80"
+            data-height="11.50" data-answer="В">
+        <input type="text" maxlength="1" class="cell" data-top="15.40" data-left="11.88" data-width="9.80"
+            data-height="11.50" data-answer="К">
+        <input type="text" maxlength="1" class="cell" data-top="28.12" data-left="11.82" data-width="9.80"
+            data-height="11.50" data-answer="О">
+        <input type="text" maxlength="1" class="cell" data-top="40.32" data-left="11.89" data-width="9.80"
+            data-height="11.50" data-answer="С">
+        <input type="text" maxlength="1" class="cell" data-top="51.01" data-left="11.94" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="62.20" data-left="11.84" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="73.81" data-left="11.87" data-width="9.80"
+            data-height="11.50" data-answer="У">
+        <input type="text" maxlength="1" class="cell" data-top="86.51" data-left="11.88" data-width="9.80"
+            data-height="11.50" data-answer="С">
+        <input type="text" maxlength="1" class="cell" data-top="28.01" data-left="21.14" data-width="9.80"
+            data-height="11.50" data-answer="Р">
+        <input type="text" maxlength="1" class="cell" data-top="40.43" data-left="21.24" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="51.72" data-left="21.27" data-width="9.80"
+            data-height="11.50" data-answer="М">
+        <input type="text" maxlength="1" class="cell" data-top="62.21" data-left="21.10" data-width="9.80"
+            data-height="11.50" data-answer="Я">
+        <input type="text" maxlength="1" class="cell" data-top="39.92" data-left="39.75" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="86.61" data-left="21.31" data-width="9.80"
+            data-height="11.50" data-answer="Ф">
+        <input type="text" maxlength="1" class="cell" data-top="51.51" data-left="30.50" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="61.90" data-left="30.31" data-width="9.80"
+            data-height="11.50" data-answer="Л">
+        <input type="text" maxlength="1" class="cell" data-top="86.42" data-left="30.27" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="28.32" data-left="39.83" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="51.81" data-left="39.61" data-width="9.80"
+            data-height="11.50" data-answer="М">
+        <input type="text" maxlength="1" class="cell" data-top="62.00" data-left="39.72" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="73.80" data-left="39.87" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="28.42" data-left="49.13" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="40.12" data-left="49.23" data-width="9.80"
+            data-height="11.50" data-answer="Б">
+        <input type="text" maxlength="1" class="cell" data-top="73.67" data-left="49.14" data-width="9.80"
+            data-height="11.50" data-answer="Р">
+        <input type="text" maxlength="1" class="cell" data-top="62.11" data-left="49.23" data-width="9.80"
+            data-height="11.50" data-answer="Д">
+        <input type="text" maxlength="1" class="cell" data-top="86.21" data-left="48.92" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="27.91" data-left="58.73" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="40.52" data-left="58.78" data-width="9.80"
+            data-height="11.50" data-answer="Ц">
+        <input type="text" maxlength="1" class="cell" data-top="51.68" data-left="58.93" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="73.10" data-left="58.56" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="73.98" data-left="89.28" data-width="9.80"
+            data-height="11.50" data-answer="К">
+        <input type="text" maxlength="1" class="cell" data-top="28.42" data-left="68.08" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="40.53" data-left="68.13" data-width="9.80"
+            data-height="11.50" data-answer="И">
+        <input type="text" maxlength="1" class="cell" data-top="51.92" data-left="68.65" data-width="9.80"
+            data-height="11.50" data-answer="Е">
+        <input type="text" maxlength="1" class="cell" data-top="62.37" data-left="68.59" data-width="9.80"
+            data-height="11.50" data-answer="Н">
+        <input type="text" maxlength="1" class="cell" data-top="73.27" data-left="68.49" data-width="9.80"
+            data-height="11.50" data-answer="З">
+        <input type="text" maxlength="1" class="cell" data-top="62.61" data-left="78.41" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="40.63" data-left="78.70" data-width="9.80"
+            data-height="11.50" data-answer="С">
+        <input type="text" maxlength="1" class="cell" data-top="51.99" data-left="78.53" data-width="9.80"
+            data-height="11.50" data-answer="Л">
+        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="78.56" data-width="9.80"
+            data-height="11.50" data-answer="О">
+        <input type="text" maxlength="1" class="cell" data-top="86.21" data-left="78.80" data-width="9.80"
+            data-height="11.50" data-answer="В">
+        <input type="text" maxlength="1" class="cell" data-top="28.32" data-left="89.27" data-width="9.80"
+            data-height="11.50" data-answer="Ы">
+        <input type="text" maxlength="1" class="cell" data-top="51.18" data-left="89.43" data-width="9.80"
+            data-height="11.50" data-answer="О">
+        <input type="text" maxlength="1" class="cell" data-top="62.68" data-left="89.46" data-width="9.80"
+            data-height="11.50" data-answer="Т">
+        <input type="text" maxlength="1" class="cell" data-top="86.61" data-left="89.28" data-width="9.80"
+            data-height="11.50" data-answer="А">
+        <input type="text" maxlength="1" class="cell" data-top="40.90" data-left="89.33" data-width="9.80"
+            data-height="11.50" data-answer="С">
+        <input type="text" maxlength="1" class="cell" data-top="28.29" data-left="30.60" data-width="9.80"
+            data-height="11.50" data-answer="Д">
+        <input type="text" maxlength="1" class="cell" data-top="73.91" data-left="30.38" data-width="9.80"
+            data-height="11.50" data-answer="О">
+        <input type="text" maxlength="1" class="cell" data-top="86.61" data-left="39.63" data-width="9.80"
+            data-height="11.50" data-answer="Р">
+        <input type="text" maxlength="1" class="cell" data-top="86.58" data-left="68.38" data-width="9.80"
+            data-height="11.50" data-answer="Д">
+    </div>
+
+    <script>
+        const img = document.querySelector('.bg-image');
+        const container = document.querySelector('.crossword-container');
+        const cells = document.querySelectorAll('.cell');
+
+        function applyCellLayout() {
+            cells.forEach(cell => {
+                const top = Number(cell.dataset.top || 0);
+                const left = Number(cell.dataset.left || 0);
+                const width = Number(cell.dataset.width || 4);
+                const height = Number(cell.dataset.height || 4);
+
+                cell.style.top = top + '%';
+                cell.style.left = left + '%';
+                cell.style.width = width + '%';
+                cell.style.height = height + '%';
+            });
+        }
+
+        function fitBoard() {
+            if (!img.complete || !img.naturalWidth || !img.naturalHeight) return;
+
+            const nav = document.querySelector('.top-nav');
+            const navHeight = nav ? nav.offsetHeight + 20 : 0;
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight - navHeight;
+
+            const boardRatio = img.naturalWidth / img.naturalHeight;
+            const viewportRatio = viewportWidth / viewportHeight;
+
+            let boardWidth, boardHeight;
+
+            if (viewportRatio > boardRatio) {
+                boardHeight = viewportHeight;
+                boardWidth = boardHeight * boardRatio;
+            } else {
+                boardWidth = viewportWidth;
+                boardHeight = boardWidth / boardRatio;
+            }
+
+            container.style.width = boardWidth + 'px';
+            container.style.height = boardHeight + 'px';
+        }
+
+        if (img.complete) {
+            fitBoard();
+        } else {
+            img.addEventListener('load', fitBoard);
+        }
+
+        applyCellLayout();
+
+        cells.forEach(cell => {
+            cell.addEventListener('input', (e) => {
+                let value = e.target.value;
+                if (value.length > 0) {
+                    e.target.value = value.charAt(0).toUpperCase();
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            const active = document.activeElement;
+            if (!active || !active.classList.contains('cell')) return;
+
+            const currentTop = parseFloat(active.dataset.top);
+            const currentLeft = parseFloat(active.dataset.left);
+
+            let bestMatch = null;
+            let minScore = Infinity;
+
+            cells.forEach(cell => {
+                if (cell === active) return;
+                const top = parseFloat(cell.dataset.top);
+                const left = parseFloat(cell.dataset.left);
+
+                let score = Infinity;
+
+                if (e.key === 'ArrowRight' && left > currentLeft) {
+                    score = (left - currentLeft) + Math.abs(top - currentTop) * 4;
+                } else if (e.key === 'ArrowLeft' && left < currentLeft) {
+                    score = (currentLeft - left) + Math.abs(top - currentTop) * 4;
+                } else if (e.key === 'ArrowDown' && top > currentTop) {
+                    score = (top - currentTop) + Math.abs(left - currentLeft) * 4;
+                } else if (e.key === 'ArrowUp' && top < currentTop) {
+                    score = (currentTop - top) + Math.abs(left - currentLeft) * 4;
+                }
+
+                if (score < minScore) {
+                    minScore = score;
+                    bestMatch = cell;
+                }
+            });
+
+            if (bestMatch) {
+                e.preventDefault();
+                bestMatch.focus();
+                bestMatch.select();
+            }
+        });
+
+        let isDragging = false;
+        let startX = 0, startY = 0;
+        let lastX = 0, lastY = 0;
+        let isScrollGesture = false;
+
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                isScrollGesture = false;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                lastX = startX;
+                lastY = startY;
+            }
+        }, { passive: true });
+
+        container.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length !== 1) return;
+
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+
+            const deltaX = currentX - lastX;
+            const deltaY = currentY - lastY;
+
+            if (!isScrollGesture) {
+                const moveX = currentX - startX;
+                const moveY = currentY - startY;
+                if (Math.abs(moveX) > 7 || Math.abs(moveY) > 7) {
+                    isScrollGesture = true;
+                }
+            }
+
+            if (isScrollGesture) {
+                if (e.cancelable) e.preventDefault();
+                window.scrollBy(-deltaX, -deltaY);
+            }
+
+            lastX = currentX;
+            lastY = currentY;
+        }, { passive: false });
+
+        container.addEventListener('touchend', () => { isDragging = false; });
+        container.addEventListener('touchcancel', () => { isDragging = false; });
+
+        window.addEventListener('resize', fitBoard);
+
+        const SCANWORD_ID = 'scanword_5';
+
+        const checkBtn = document.getElementById('btnCheck');
+        const hiddenAnswers = new Map();
+
+        function obfuscateAnswers() {
+            cells.forEach((cell, index) => {
+                const answer = cell.dataset.answer;
+                if (answer) {
+                    hiddenAnswers.set(index, btoa(encodeURIComponent(answer.trim().toUpperCase())));
+                    cell.removeAttribute('data-answer');
+                }
+            });
+        }
+
+
+        function saveProgress() {
+            const progress = Array.from(cells).map(cell => {
+                let status = '';
+                if (cell.classList.contains('correct')) status = 'correct';
+                if (cell.classList.contains('incorrect')) status = 'incorrect';
+
+                return {
+                    value: cell.value,
+                    status: status
+                };
+            });
+            sessionStorage.setItem(`scanword_progress_${SCANWORD_ID}`, JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = sessionStorage.getItem(`scanword_progress_${SCANWORD_ID}`);
+            if (!saved) return;
+
+            try {
+                const progress = JSON.parse(saved);
+                cells.forEach((cell, index) => {
+                    const item = progress[index];
+                    if (!item) return;
+                    if (typeof item === 'string') {
+                        cell.value = item;
+                    } else {
+                        cell.value = item.value || '';
+                        if (item.status) {
+                            cell.classList.add(item.status);
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Ошибка загрузки прогресса:', e);
+            }
+        }
+
+        if (checkBtn) {
+            checkBtn.addEventListener('click', () => {
+                cells.forEach((cell, index) => {
+                    const userVal = cell.value.trim().toUpperCase();
+                    cell.classList.remove('correct', 'incorrect');
+
+                    if (!userVal || !hiddenAnswers.has(index)) return;
+
+                    const userHash = btoa(encodeURIComponent(userVal));
+                    if (userHash === hiddenAnswers.get(index)) {
+                        cell.classList.add('correct');
+                    } else {
+                        cell.classList.add('incorrect');
+                    }
+                });
+
+                saveProgress();
+            });
+        }
+
+        cells.forEach(cell => {
+            cell.addEventListener('input', (e) => {
+                let value = e.target.value;
+                if (value.length > 0) {
+                    e.target.value = value.charAt(0).toUpperCase();
+                }
+                cell.classList.remove('correct', 'incorrect');
+                saveProgress();
+            });
+        });
+
+        obfuscateAnswers();
+        loadProgress();
+    </script>
+</body>
+
+</html>
