@@ -613,7 +613,7 @@
         .mobile-sheet-cancel:active {
             background: #27ae60;
         }
-        
+
         @media (max-width: 600px) {
             .cell {
                 font-size: 3.8cqw;
@@ -665,7 +665,7 @@
 
             .mobile-clear-link:hover,
             .mobile-clear-link:active {
-                color: #fd9798;
+                color: #ced8bf;
             }
 
             #mobileUserBtn {
@@ -694,6 +694,55 @@
                 font-size: 12px;
                 padding: 6px 8px;
                 flex-shrink: 0;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            #certificateModal {
+                padding: 12px;
+                box-sizing: border-box;
+                overflow-y: auto;
+            }
+
+            #certificateModal #certBox {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-height: auto !important;
+                padding: 24px 18px !important;
+                border-width: 4px !important;
+                box-sizing: border-box;
+            }
+
+            #certificateModal #certBox h1 {
+                font-size: 26px !important;
+                letter-spacing: 1px !important;
+                margin-bottom: 10px !important;
+            }
+
+            #certificateModal #certBox p {
+                font-size: 14px !important;
+                margin-bottom: 16px !important;
+            }
+
+            #certificateModal #certUserName {
+                font-size: 22px !important;
+                margin: 8px 0 20px 0 !important;
+                max-width: 100%;
+                overflow-wrap: break-word;
+                word-break: break-word;
+            }
+
+            #certificateModal #certBox>div:nth-last-child(2) {
+                flex-direction: column;
+                gap: 6px;
+                align-items: center;
+                font-size: 12px !important;
+            }
+
+            #certificateModal #btnPrintCert {
+                width: 100%;
+                padding: 12px 16px !important;
+                font-size: 15px !important;
             }
         }
     </style>
@@ -768,7 +817,7 @@
 
         <span id="btnClearScanword"
             style="position: absolute; top: -22px; left: 0; font-size: 12px; color: #666; text-decoration: underline; cursor: pointer; transition: color 0.2s;"
-            onmouseover="this.style.color='#ced8bf'" onmouseout="this.style.color='#666'">Очистить сканворд</span>
+            onmouseover="this.style.color='#ced8bf'" onmouseout="this.style.color='#666'">Очистить</span>
 
         <div class="crossword-container">
             <img src="board2.png" alt="Кроссворд" class="bg-image">
@@ -898,10 +947,9 @@
             <input type="text" maxlength="1" class="cell" data-top="92.96" data-left="86.65" data-width="13.00"
                 data-height="8.00" data-answer="Ш">
         </div>
-        
+
         <div class="mobile-bottom-bar" id="mobileBottomBar">
-            <button type="button" id="mobileClearBtn" class="mobile-bar-btn mobile-clear-link">Очистить
-                сканворд</button>
+            <button type="button" id="mobileClearBtn" class="mobile-bar-btn mobile-clear-link">Очистить</button>
             <button type="button" id="mobileUserBtn" class="mobile-bar-btn" style="display: none;"></button>
             <button type="button" id="mobileMoreBtn" class="mobile-bar-btn">Подробнее ▾</button>
         </div>
@@ -1175,7 +1223,7 @@
 
         function validateNameInput(e) {
             let val = e.target.value;
-            e.target.value = val.replace(/[^a-zA-Zа-яА-ЯёЁ\s\-]/g, '');
+            e.target.value = val.replace(/[^a-zA-Zа-яА-ЯёЁ\s\-]/g, '').slice(0, 10);
             checkFormValidity();
         }
 
@@ -1383,7 +1431,7 @@
                 if (!certModal) {
                     certModal = document.createElement('div');
                     certModal.id = 'certificateModal';
-                    certModal.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);display:none;justify-content:center;align-items:center;z-index:99999;cursor:pointer;';
+                    certModal.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);display:none;justify-content:center;align-items:center;z-index:99999;cursor:pointer;';
                     certModal.innerHTML = `
                         <div id="certBox" style="background:#fff;color:#1a1a2e;padding:55px 70px;border-radius:12px;width:85%;max-width:900px;min-height:420px;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center;position:relative;box-sizing:border-box;border:8px solid #1a1a2e;font-family:Arial,sans-serif;cursor:default;display:flex;flex-direction:column;justify-content:space-between;">
                             <h1 style="margin:0 0 15px 0;font-size:44px;letter-spacing:2px;color:#1a1a2e;">СЕРТИФИКАТ</h1>
@@ -1443,7 +1491,7 @@
         const secretWord = 'magic';
 
         document.addEventListener('keydown', (e) => {
-            
+
             if (e.key === 'Escape') {
                 if (typeof rulesModal !== 'undefined' && rulesModal.style.display === 'flex') {
                     closeRulesModal();
@@ -1456,10 +1504,10 @@
                     certModal.style.display = 'none';
                     document.body.style.overflow = '';
                 }
-                return; 
+                return;
             }
 
-            
+
             const welcomeModal = document.getElementById('welcomeModal');
             const isWelcomeOpen = welcomeModal && (
                 welcomeModal.style.display === 'flex' ||
@@ -1485,11 +1533,11 @@
                 }
             }
 
-            
+
             if (e.target.tagName === 'INPUT') {
-                
+
             } else {
-                
+
                 const isRulesOpen = document.getElementById('rulesModal')?.style.display === 'flex';
                 const isAuthorOpen = document.getElementById('authorModal')?.style.display === 'flex';
                 const certModal = document.getElementById('certificateModal');
@@ -1520,8 +1568,8 @@
                 }
             }
 
-            
-            
+
+
             if (e.target.tagName !== 'INPUT') {
                 typedString += e.key.toLowerCase();
 
@@ -1591,7 +1639,7 @@
             document.body.style.overflow = '';
             updateUserBadge();
         });
-        
+
         function syncMobileBadge() {
             if (!mobileUserBtn) return;
             const savedProfile = localStorage.getItem('user_profile');
