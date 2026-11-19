@@ -4,8 +4,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMARTMATHSCAN-V2</title>
+    <title>SMARTMATHSCAN</title>
     <style>
+        .author-body {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .author-text {
+            flex: 1;
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: #b0b3b8;
+            text-align: justify;
+        }
+
+        .author-photo-container {
+            flex-shrink: 0;
+        }
+
+        .author-photo {
+            width: 90px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #16213e;
+        }
+
+        .modal-content.modal-author {
+            max-width: 600px;
+            padding: 35px;
+        }
+
+        .modal-content.modal-author .author-photo {
+            width: 270px;
+            height: 360px;
+        }
+
+        @media (max-width: 480px) {
+            .author-body {
+                flex-direction: column-reverse;
+                align-items: center;
+            }
+
+            .author-text {
+                text-align: left;
+            }
+        }
+
+        .user-badge-wrapper,
+        .more-menu-wrapper {
+            position: relative;
+        }
+
+        .user-dropdown,
+        .more-dropdown {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            margin-top: 6px;
+            background: #1a1a2e;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1002;
+            box-sizing: border-box;
+        }
+
+        .user-dropdown.show,
+        .more-dropdown.show {
+            display: flex;
+        }
+
+        .user-dropdown-item {
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #f0f2f5;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+            border: none;
+            background: none;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+            white-space: normal;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .user-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .rules-top-btn {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #111;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .rules-top-btn:hover {
+            background: rgba(0, 0, 0, 0.07);
+        }
+
+        .user-badge-container {
+            position: fixed;
+            top: 10px;
+            right: 15px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .modal-hint {
+            font-size: 12.5px;
+            color: #2ecc71;
+            text-align: center;
+            margin-top: -6px;
+        }
+
+        .user-badge {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #111;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .user-badge:hover {
+            background: rgba(0, 0, 0, 0.07);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background: #1a1a2e;
+            color: #f0f2f5;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-content.modal-large {
+            max-width: 650px;
+            height: 82vh;
+            max-height: 88vh;
+        }
+
+        .modal-content.modal-large .rules-container {
+            flex: 1;
+            max-height: none;
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            margin: 0;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .rules-container {
+            text-align: justify;
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: #b0b3b8;
+            max-height: 130px;
+            overflow-y: auto;
+            padding-right: 5px;
+            white-space: pre-line;
+        }
+
+        .modal-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal-inputs input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .modal-inputs input:focus {
+            border-color: #2ecc71;
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2ecc71;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, opacity 0.2s;
+        }
+
+        .modal-btn:disabled {
+            background: #2a2a3e;
+            color: #6a6a8a;
+            cursor: not-allowed;
+        }
+
+        .modal-btn:not(:disabled):hover {
+            background: #27ae60;
+        }
+
+        @keyframes certificatePulse {
+            0% {
+                box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2), 0 0 0 0 rgba(46, 204, 113, 0.4);
+                border-color: rgba(46, 204, 113, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 4px 20px rgba(46, 204, 113, 0.6), 0 0 0 8px rgba(46, 204, 113, 0);
+                border-color: rgba(46, 204, 113, 1);
+            }
+
+            100% {
+                box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2), 0 0 0 0 rgba(46, 204, 113, 0);
+                border-color: rgba(46, 204, 113, 0.5);
+            }
+        }
+
+        .user-badge.certificate-ready {
+            animation: certificatePulse 2s infinite;
+            background: rgba(46, 204, 113, 0.15);
+            border-color: #2ecc71;
+        }
+
+        .user-dropdown-item.certificate-ready {
+            color: #2ecc71;
+            font-weight: bold;
+            background: rgba(46, 204, 113, 0.12);
+            animation: certificatePulse 2s infinite;
+        }
+
+        .user-dropdown-item.certificate-ready:hover {
+            background: rgba(46, 204, 113, 0.25);
+        }
+
+        @media print {
+
+            body,
+            html {
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 100% !important;
+                overflow: hidden !important;
+            }
+
+            body * {
+                visibility: hidden !important;
+            }
+
+            #certificateModal,
+            #certificateModal * {
+                visibility: visible !important;
+            }
+
+            #certificateModal {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                background: #fff !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                z-index: 999999 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            #certificateModal #certBox {
+                width: 92% !important;
+                max-width: 940px !important;
+                min-height: 440px !important;
+                padding: 55px 70px !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+                border: 6px solid #1a1a2e !important;
+                margin: 0 !important;
+            }
+
+            #certificateModal .no-print {
+                display: none !important;
+            }
+
+            @page {
+                size: landscape;
+                margin: 0;
+            }
+        }
+
         body {
             display: flex;
             flex-direction: column;
@@ -67,38 +414,38 @@
             border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 
-            
+
             max-width: calc(100vw - 16px);
             overflow-x: auto;
-            
+
             white-space: nowrap;
             box-sizing: border-box;
 
-            
+
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
-            
+
         }
 
         .top-nav::-webkit-scrollbar {
             display: none;
-            
+
         }
 
         .nav-btn {
             color: #111;
             text-decoration: none;
             padding: 6px 10px;
-            
+
             border-radius: 6px;
             font-size: 13px;
-            
+
             font-weight: bold;
             cursor: pointer;
             transition: background 0.2s ease, transform 0.1s ease;
             white-space: nowrap;
             flex-shrink: 0;
-            
+
         }
 
         .check-btn {
@@ -185,17 +532,71 @@
             filter: brightness(0.9);
         }
 
-        
+
         @media (max-width: 600px) {
             .cell {
                 font-size: 3.8cqw;
-                
+
             }
         }
     </style>
 </head>
 
 <body>
+    <div id="welcomeModal" class="modal-overlay">
+        <div class="modal-content modal-large">
+            <h2>SMARTMATHSCAN</h2>
+            <div class="rules-container"></div>
+            <div class="modal-inputs">
+                <input type="text" id="inputLastName" placeholder="Фамилия*" maxlength="25" autocomplete="family-name">
+                <input type="text" id="inputFirstName" placeholder="Имя*" maxlength="25" autocomplete="given-name">
+            </div>
+            <div class="modal-hint">* обязательные поля. Убедитесь, что фамилия и имя указаны верно.</div>
+            <button id="btnContinue" class="modal-btn" disabled>Продолжить</button>
+        </div>
+    </div>
+
+    <div id="rulesModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content modal-large">
+            <h2>Правила</h2>
+            <div class="rules-container"></div>
+            <button id="btnCloseRules" class="modal-btn">Понятно</button>
+        </div>
+    </div>
+
+    <div id="authorModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content modal-author">
+            <h2>Иванов Иван Иванович</h2>
+            <div class="author-body">
+                <div class="author-text">
+                    Разработчик сканвордов. Связаться с автором
+                    можно по электронной почте: example@mail.ru или через телеграм @username.
+                </div>
+                <div class="author-photo-container">
+                    <img src="author.jpg" alt="Фото автора" class="author-photo">
+                </div>
+            </div>
+            <button id="btnCloseAuthor" class="modal-btn">Понятно</button>
+        </div>
+    </div>
+
+    <div class="user-badge-container">
+        <div class="user-badge-wrapper">
+            <div id="userBadge" class="user-badge" style="display: none;"></div>
+            <div id="userDropdown" class="user-dropdown">
+                <button id="btnChangeUser" class="user-dropdown-item">Изменить фамилию и имя</button>
+                <button id="btnDownloadCert" class="user-dropdown-item">Получить сертификат</button>
+            </div>
+        </div>
+
+        <div class="more-menu-wrapper">
+            <button id="btnMoreMenu" class="rules-top-btn">Подробнее ▾</button>
+            <div id="moreDropdown" class="more-dropdown">
+                <button id="btnRules" class="user-dropdown-item">Правила</button>
+                <button id="btnAuthor" class="user-dropdown-item">Автор</button>
+            </div>
+        </div>
+    </div>
 
     <nav class="top-nav">
         <a href="index.html" class="nav-btn btn-1 active">№1</a>
@@ -206,121 +607,128 @@
         <button id="btnCheck" class="check-btn">Проверить</button>
     </nav>
 
-    <div class="crossword-container">
-        <img src="board1.png" alt="Кроссворд" class="bg-image">
+    <div style="position: relative; display: inline-block;">
 
-        <input type="text" maxlength="1" class="cell" data-top="15" data-left="20" data-width="9.8" data-height="11.5"
-            data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="30.00" data-width="9.80"
-            data-height="11.50" data-answer="К">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="40.00" data-width="9.80"
-            data-height="11.50" data-answer="Т">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="50.00" data-width="9.80"
-            data-height="11.50" data-answer="О">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="60.00" data-width="9.80"
-            data-height="11.50" data-answer="Р">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="70.00" data-width="9.80"
-            data-height="11.50" data-answer="И">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="80.00" data-width="9.80"
-            data-height="11.50" data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="90.00" data-width="9.80"
-            data-height="11.50" data-answer="Л">
-        <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="10.00" data-width="9.80"
-            data-height="11.50" data-answer="Ф">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="10.00" data-width="9.80"
-            data-height="11.50" data-answer="У">
-        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="10.00" data-width="9.80"
-            data-height="11.50" data-answer="Н">
-        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="10.00" data-width="9.80"
-            data-height="11.50" data-answer="К">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="10.00" data-width="9.80"
-            data-height="11.50" data-answer="Ц">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="10.00" data-width="9.80"
-            data-height="11.50" data-answer="И">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="10.00" data-width="9.80"
-            data-height="11.50" data-answer="З">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="20.00" data-width="9.80"
-            data-height="11.50" data-answer="Р">
-        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="20.00" data-width="9.80"
-            data-height="11.50" data-answer="Г">
-        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="20.00" data-width="9.80"
-            data-height="11.50" data-answer="У">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="20.00" data-width="9.80"
-            data-height="11.50" data-answer="М">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="20.00" data-width="9.80"
-            data-height="11.50" data-answer="Е">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="20.00" data-width="9.80"
-            data-height="11.50" data-answer="Н">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="30.00" data-width="9.80"
-            data-height="11.50" data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="30.00" data-width="9.80"
-            data-height="11.50" data-answer="Т">
-        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="30.00" data-width="9.80"
-            data-height="11.50" data-answer="Е">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="30.00" data-width="9.80"
-            data-height="11.50" data-answer="Т">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="30.00" data-width="9.80"
-            data-height="11.50" data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="40.00" data-width="9.80"
-            data-height="11.50" data-answer="В">
-        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="40.00" data-width="9.80"
-            data-height="11.50" data-answer="Ш">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="40.00" data-width="9.80"
-            data-height="11.50" data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="40.00" data-width="9.80"
-            data-height="11.50" data-answer="Р">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="50.00" data-width="9.80"
-            data-height="11.50" data-answer="Н">
-        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="50.00" data-width="9.80"
-            data-height="11.50" data-answer="Д">
-        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="50.00" data-width="9.80"
-            data-height="11.50" data-answer="И">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="50.00" data-width="9.80"
-            data-height="11.50" data-answer="Н">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="50.00" data-width="9.80"
-            data-height="11.50" data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="50.00" data-width="9.80"
-            data-height="11.50" data-answer="Т">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="60.00" data-width="9.80"
-            data-height="11.50" data-answer="Е">
-        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="60.00" data-width="9.80"
-            data-height="11.50" data-answer="Д">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="60.00" data-width="9.80"
-            data-height="11.50" data-answer="Л">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="60.00" data-width="9.80"
-            data-height="11.50" data-answer="Д">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="60.00" data-width="9.80"
-            data-height="11.50" data-answer="О">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="70.00" data-width="9.80"
-            data-height="11.50" data-answer="Н">
-        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="70.00" data-width="9.80"
-            data-height="11.50" data-answer="У">
-        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="70.00" data-width="9.80"
-            data-height="11.50" data-answer="С">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="70.00" data-width="9.80"
-            data-height="11.50" data-answer="И">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="70.00" data-width="9.80"
-            data-height="11.50" data-answer="Ч">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="80.00" data-width="9.80"
-            data-height="11.50" data-answer="И">
-        <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="80.00" data-width="9.80"
-            data-height="11.50" data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="80.00" data-width="9.80"
-            data-height="11.50" data-answer="Н">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="80.00" data-width="9.80"
-            data-height="11.50" data-answer="У">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="80.00" data-width="9.80"
-            data-height="11.50" data-answer="К">
-        <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="90.00" data-width="9.80"
-            data-height="11.50" data-answer="Е">
-        <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="90.00" data-width="9.80"
-            data-height="11.50" data-answer="И">
-        <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="90.00" data-width="9.80"
-            data-height="11.50" data-answer="С">
-        <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="90.00" data-width="9.80"
-            data-height="11.50" data-answer="А">
-        <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="90.00" data-width="9.80"
-            data-height="11.50" data-answer="Р">
+        <span id="btnClearScanword"
+            style="position: absolute; top: -22px; left: 0; font-size: 12px; color: #666; text-decoration: underline; cursor: pointer; transition: color 0.2s;"
+            onmouseover="this.style.color='#fd9798'" onmouseout="this.style.color='#666'">Очистить сканворд</span>
+
+        <div class="crossword-container">
+            <img src="board1.png" alt="Кроссворд" class="bg-image">
+
+            <input type="text" maxlength="1" class="cell" data-top="15" data-left="20" data-width="9.8"
+                data-height="11.5" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="30.00" data-width="9.80"
+                data-height="11.50" data-answer="К">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="40.00" data-width="9.80"
+                data-height="11.50" data-answer="Т">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="50.00" data-width="9.80"
+                data-height="11.50" data-answer="О">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="60.00" data-width="9.80"
+                data-height="11.50" data-answer="Р">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="70.00" data-width="9.80"
+                data-height="11.50" data-answer="И">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="80.00" data-width="9.80"
+                data-height="11.50" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="90.00" data-width="9.80"
+                data-height="11.50" data-answer="Л">
+            <input type="text" maxlength="1" class="cell" data-top="15.00" data-left="10.00" data-width="9.80"
+                data-height="11.50" data-answer="Ф">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="10.00" data-width="9.80"
+                data-height="11.50" data-answer="У">
+            <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="10.00" data-width="9.80"
+                data-height="11.50" data-answer="Н">
+            <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="10.00" data-width="9.80"
+                data-height="11.50" data-answer="К">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="10.00" data-width="9.80"
+                data-height="11.50" data-answer="Ц">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="10.00" data-width="9.80"
+                data-height="11.50" data-answer="И">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="10.00" data-width="9.80"
+                data-height="11.50" data-answer="З">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="20.00" data-width="9.80"
+                data-height="11.50" data-answer="Р">
+            <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="20.00" data-width="9.80"
+                data-height="11.50" data-answer="Г">
+            <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="20.00" data-width="9.80"
+                data-height="11.50" data-answer="У">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="20.00" data-width="9.80"
+                data-height="11.50" data-answer="М">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="20.00" data-width="9.80"
+                data-height="11.50" data-answer="Е">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="20.00" data-width="9.80"
+                data-height="11.50" data-answer="Н">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="30.00" data-width="9.80"
+                data-height="11.50" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="30.00" data-width="9.80"
+                data-height="11.50" data-answer="Т">
+            <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="30.00" data-width="9.80"
+                data-height="11.50" data-answer="Е">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="30.00" data-width="9.80"
+                data-height="11.50" data-answer="Т">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="30.00" data-width="9.80"
+                data-height="11.50" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="40.00" data-width="9.80"
+                data-height="11.50" data-answer="В">
+            <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="40.00" data-width="9.80"
+                data-height="11.50" data-answer="Ш">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="40.00" data-width="9.80"
+                data-height="11.50" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="40.00" data-width="9.80"
+                data-height="11.50" data-answer="Р">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="50.00" data-width="9.80"
+                data-height="11.50" data-answer="Н">
+            <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="50.00" data-width="9.80"
+                data-height="11.50" data-answer="Д">
+            <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="50.00" data-width="9.80"
+                data-height="11.50" data-answer="И">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="50.00" data-width="9.80"
+                data-height="11.50" data-answer="Н">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="50.00" data-width="9.80"
+                data-height="11.50" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="50.00" data-width="9.80"
+                data-height="11.50" data-answer="Т">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="60.00" data-width="9.80"
+                data-height="11.50" data-answer="Е">
+            <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="60.00" data-width="9.80"
+                data-height="11.50" data-answer="Д">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="60.00" data-width="9.80"
+                data-height="11.50" data-answer="Л">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="60.00" data-width="9.80"
+                data-height="11.50" data-answer="Д">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="60.00" data-width="9.80"
+                data-height="11.50" data-answer="О">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="70.00" data-width="9.80"
+                data-height="11.50" data-answer="Н">
+            <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="70.00" data-width="9.80"
+                data-height="11.50" data-answer="У">
+            <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="70.00" data-width="9.80"
+                data-height="11.50" data-answer="С">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="70.00" data-width="9.80"
+                data-height="11.50" data-answer="И">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="70.00" data-width="9.80"
+                data-height="11.50" data-answer="Ч">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="80.00" data-width="9.80"
+                data-height="11.50" data-answer="И">
+            <input type="text" maxlength="1" class="cell" data-top="38.40" data-left="80.00" data-width="9.80"
+                data-height="11.50" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="80.00" data-width="9.80"
+                data-height="11.50" data-answer="Н">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="80.00" data-width="9.80"
+                data-height="11.50" data-answer="У">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="80.00" data-width="9.80"
+                data-height="11.50" data-answer="К">
+            <input type="text" maxlength="1" class="cell" data-top="26.70" data-left="90.00" data-width="9.80"
+                data-height="11.50" data-answer="Е">
+            <input type="text" maxlength="1" class="cell" data-top="61.80" data-left="90.00" data-width="9.80"
+                data-height="11.50" data-answer="И">
+            <input type="text" maxlength="1" class="cell" data-top="73.50" data-left="90.00" data-width="9.80"
+                data-height="11.50" data-answer="С">
+            <input type="text" maxlength="1" class="cell" data-top="85.20" data-left="90.00" data-width="9.80"
+                data-height="11.50" data-answer="А">
+            <input type="text" maxlength="1" class="cell" data-top="50.10" data-left="90.00" data-width="9.80"
+                data-height="11.50" data-answer="Р">
+        </div>
     </div>
 
     <script>
@@ -527,21 +935,36 @@
 
         if (checkBtn) {
             checkBtn.addEventListener('click', () => {
+                let hasError = false;
+                let correctAnswersCount = 0;
+                const totalAnswers = hiddenAnswers.size;
+
                 cells.forEach((cell, index) => {
                     const userVal = cell.value.trim().toUpperCase();
                     cell.classList.remove('correct', 'incorrect');
 
-                    if (!userVal || !hiddenAnswers.has(index)) return;
+                    if (!hiddenAnswers.has(index)) return;
+
+                    if (!userVal) {
+                        hasError = true;
+                        return;
+                    }
 
                     const userHash = btoa(encodeURIComponent(userVal));
                     if (userHash === hiddenAnswers.get(index)) {
                         cell.classList.add('correct');
+                        correctAnswersCount++;
                     } else {
                         cell.classList.add('incorrect');
+                        hasError = true;
                     }
                 });
 
+                const isCompleted = (!hasError && correctAnswersCount === totalAnswers);
+                sessionStorage.setItem(`scanword_completed_${SCANWORD_ID}`, isCompleted ? 'true' : 'false');
+
                 saveProgress();
+                updateUserBadge();
             });
         }
 
@@ -558,6 +981,434 @@
 
         obfuscateAnswers();
         loadProgress();
+
+        const modal = document.getElementById('welcomeModal');
+        const inputLastName = document.getElementById('inputLastName');
+        const inputFirstName = document.getElementById('inputFirstName');
+        const btnContinue = document.getElementById('btnContinue');
+
+        function validateNameInput(e) {
+            let val = e.target.value;
+            e.target.value = val.replace(/[^a-zA-Zа-яА-ЯёЁ\s\-]/g, '');
+            checkFormValidity();
+        }
+
+        function checkFormValidity() {
+            const lastName = inputLastName.value.trim();
+            const firstName = inputFirstName.value.trim();
+            if (lastName.length > 0 && firstName.length > 0) {
+                btnContinue.removeAttribute('disabled');
+            } else {
+                btnContinue.setAttribute('disabled', 'true');
+            }
+        }
+
+        inputLastName.addEventListener('input', validateNameInput);
+        inputFirstName.addEventListener('input', validateNameInput);
+
+        const SITE_RULES_TEXT = `Добро пожаловать в мир интеллектуальных головоломок, где царят цифры, формулы и строгая логика! Этот сканворд создан для проверки вашей эрудиции и знания математических терминов.
+
+Основные правила:
+
+1. Математическая основа
+Все слова-ответы по горизонтали и вертикали — это исключительно математические термины (например: деление, корень, интеграл, радиус, биссектриса, матрица и т.д.). Никаких посторонних слов!
+
+2. Направление слов
+Слова пересекаются друг с другом по вертикали и горизонтали, образуя единую сетку. Направление чтения каждого термина указано стрелками в клетках с подсказками.
+
+3. Формат терминов
+Будьте внимательны! В зависимости от сложности задания, термины могут быть представлены в разном виде:
+- Полные слова — классические математические понятия в начальной форме.
+- Сокращенные или неполные слова — когда в сетку помещается только часть термина.
+- Анаграммы и буквы вразброс — в некоторых заданиях буквы внутри слова могут быть переставлены местами, и перед вводом ответа их сначала придется «расшифровать».
+
+Как разгадывать?
+- Внимательно читайте определение или условие в ячейке-подсказке.
+- Вспоминайте подходящие математические термины.
+- Учитывайте количество букв и пересечения с уже отгаданными соседними словами.
+
+Проверьте, насколько хорошо вы помните школьную программу по математике. Желаем удачи и отличного счета!`;
+
+        document.querySelectorAll('.rules-container').forEach(el => {
+            el.textContent = SITE_RULES_TEXT;
+        });
+
+        const rulesModal = document.getElementById('rulesModal');
+        const btnMoreMenu = document.getElementById('btnMoreMenu');
+        const moreDropdown = document.getElementById('moreDropdown');
+        const btnRules = document.getElementById('btnRules');
+        const btnAuthor = document.getElementById('btnAuthor');
+        const btnCloseRules = document.getElementById('btnCloseRules');
+        const authorModal = document.getElementById('authorModal');
+        const btnCloseAuthor = document.getElementById('btnCloseAuthor');
+
+        function checkScrollUnlock() {
+            const isWelcomeOpen = modal.style.display === 'flex';
+            const isRulesOpen = rulesModal.style.display === 'flex';
+            const isAuthorOpen = authorModal.style.display === 'flex';
+
+            if (!isWelcomeOpen && !isRulesOpen && !isAuthorOpen) {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeRulesModal() {
+            rulesModal.style.display = 'none';
+            checkScrollUnlock();
+        }
+
+        function closeAuthorModal() {
+            authorModal.style.display = 'none';
+            checkScrollUnlock();
+        }
+
+        btnRules.addEventListener('click', () => {
+            moreDropdown.classList.remove('show');
+            rulesModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        btnAuthor.addEventListener('click', () => {
+            moreDropdown.classList.remove('show');
+            authorModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+
+        btnCloseRules.addEventListener('click', closeRulesModal);
+        btnCloseAuthor.addEventListener('click', closeAuthorModal);
+
+        rulesModal.addEventListener('click', (e) => {
+            if (e.target === rulesModal) {
+                closeRulesModal();
+            }
+        });
+
+        authorModal.addEventListener('click', (e) => {
+            if (e.target === authorModal) {
+                closeAuthorModal();
+            }
+        });
+
+        const userBadge = document.getElementById('userBadge');
+        const userDropdown = document.getElementById('userDropdown');
+        const btnChangeUser = document.getElementById('btnChangeUser');
+        const btnDownloadCert = document.getElementById('btnDownloadCert');
+
+        function checkAllScanwordsCompleted() {
+            const totalScanwords = 5;
+            for (let i = 1; i <= totalScanwords; i++) {
+                const keyName = i === 1 ? 'scanword_1' : `scanword_${i}`;
+                if (sessionStorage.getItem(`scanword_completed_${keyName}`) !== 'true') {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function updateUserBadge() {
+            const savedProfile = localStorage.getItem('user_profile');
+            if (savedProfile) {
+                try {
+                    const profile = JSON.parse(savedProfile);
+                    userBadge.textContent = `${profile.lastName} ${profile.firstName}`;
+                    userBadge.style.display = 'block';
+
+                    if (checkAllScanwordsCompleted()) {
+                        userBadge.classList.add('certificate-ready');
+                        btnDownloadCert.classList.add('certificate-ready');
+                    } else {
+                        userBadge.classList.remove('certificate-ready');
+                        btnDownloadCert.classList.remove('certificate-ready');
+                    }
+                } catch (e) {
+                    userBadge.style.display = 'none';
+                }
+            } else {
+                userBadge.style.display = 'none';
+            }
+        }
+
+        btnMoreMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            moreDropdown.classList.toggle('show');
+            userDropdown.classList.remove('show');
+        });
+
+        userBadge.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+            moreDropdown.classList.remove('show');
+        });
+
+        document.addEventListener('click', () => {
+            userDropdown.classList.remove('show');
+            moreDropdown.classList.remove('show');
+        });
+
+        btnChangeUser.addEventListener('click', () => {
+            userDropdown.classList.remove('show');
+            if (confirm('Сканворды очистятся. Продолжить?')) {
+                Object.keys(sessionStorage).forEach(key => {
+                    if (key.startsWith('scanword_progress_') || key.startsWith('scanword_completed_')) {
+                        sessionStorage.removeItem(key);
+                    }
+                });
+                localStorage.removeItem('user_profile');
+
+                cells.forEach(cell => {
+                    cell.value = '';
+                    cell.classList.remove('correct', 'incorrect');
+                });
+
+                inputLastName.value = '';
+                inputFirstName.value = '';
+                btnContinue.setAttribute('disabled', 'true');
+
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                userBadge.style.display = 'none';
+                userBadge.classList.remove('certificate-ready');
+                btnDownloadCert.classList.remove('certificate-ready');
+            }
+        });
+
+        btnDownloadCert.addEventListener('click', () => {
+            userDropdown.classList.remove('show');
+
+            if (checkAllScanwordsCompleted()) {
+                const savedProfile = localStorage.getItem('user_profile');
+                let fullName = 'Участник';
+                if (savedProfile) {
+                    try {
+                        const profile = JSON.parse(savedProfile);
+                        fullName = `${profile.lastName} ${profile.firstName}`;
+                    } catch (e) { }
+                }
+
+                let certModal = document.getElementById('certificateModal');
+                if (!certModal) {
+                    certModal = document.createElement('div');
+                    certModal.id = 'certificateModal';
+                    certModal.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);display:none;justify-content:center;align-items:center;z-index:99999;cursor:pointer;';
+                    certModal.innerHTML = `
+                        <div id="certBox" style="background:#fff;color:#1a1a2e;padding:55px 70px;border-radius:12px;width:85%;max-width:900px;min-height:420px;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center;position:relative;box-sizing:border-box;border:8px solid #1a1a2e;font-family:Arial,sans-serif;cursor:default;display:flex;flex-direction:column;justify-content:space-between;">
+                            <h1 style="margin:0 0 15px 0;font-size:44px;letter-spacing:2px;color:#1a1a2e;">СЕРТИФИКАТ</h1>
+                            <p style="color:#555;font-size:18px;margin-bottom:25px;">Настоящим подтверждается успешное прохождение всех математических сканвордов</p>
+                            <div style="font-size:16px;color:#777;margin-top:10px;">Владелец сертификата:</div>
+                            <div id="certUserName" style="font-size:32px;font-weight:bold;color:#2ecc71;margin:10px 0 30px 0;border-bottom:2px solid #2ecc71;display:inline-block;padding-bottom:5px;"></div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#777;border-top:1px solid #eee;padding-top:15px;margin-top:15px;">
+                                <span>SMARTMATHSCAN</span>
+                                <span id="certDate"></span>
+                            </div>
+                            <div class="no-print" style="margin-top:30px;display:flex;justify-content:center;">
+                                <button id="btnPrintCert" style="background:#2ecc71;color:#fff;border:none;padding:12px 30px;border-radius:6px;font-size:16px;font-weight:bold;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#27ae60'" onmouseout="this.style.background='#2ecc71'">Сохранить в PDF / Печать</button>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(certModal);
+
+                    certModal.addEventListener('click', () => {
+                        certModal.style.display = 'none';
+                    });
+
+                    document.getElementById('certBox').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                    });
+
+                    document.getElementById('btnPrintCert').addEventListener('click', () => {
+                        const originalTitle = document.title;
+
+                        const savedProfile = localStorage.getItem('user_profile');
+                        if (savedProfile) {
+                            try {
+                                const profile = JSON.parse(savedProfile);
+                                if (profile.lastName && profile.firstName) {
+                                    document.title = `${profile.lastName}_${profile.firstName}_SMARTMATHSCAN_Certificate`;
+                                }
+                            } catch (e) { }
+                        }
+
+                        window.print();
+
+                        setTimeout(() => {
+                            document.title = originalTitle;
+                        }, 100);
+                    });
+                }
+
+                document.getElementById('certUserName').textContent = fullName;
+                document.getElementById('certDate').textContent = 'Дата: ' + new Date().toLocaleDateString();
+                certModal.style.display = 'flex';
+
+            } else {
+                alert('Сертификат доступен только после успешной проверки всех сканвордов. Используйте кнопку "Проверить" на каждой странице сканворда, чтобы убедиться, что все ответы верны.');
+            }
+        });
+
+        let typedString = '';
+        const secretWord = 'magic';
+
+        document.addEventListener('keydown', (e) => {
+
+            if (e.key === 'Escape') {
+                if (typeof rulesModal !== 'undefined' && rulesModal.style.display === 'flex') {
+                    closeRulesModal();
+                }
+                if (typeof authorModal !== 'undefined' && authorModal.style.display === 'flex') {
+                    closeAuthorModal();
+                }
+                const certModal = document.getElementById('certificateModal');
+                if (certModal && certModal.style.display === 'flex') {
+                    certModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+                return;
+            }
+
+
+            const welcomeModal = document.getElementById('welcomeModal');
+            const isWelcomeOpen = welcomeModal && (
+                welcomeModal.style.display === 'flex' ||
+                window.getComputedStyle(welcomeModal).display === 'flex'
+            );
+
+            if (isWelcomeOpen) {
+                const inputs = welcomeModal.querySelectorAll('input');
+                if (inputs.length >= 2) {
+                    const activeElement = document.activeElement;
+                    const firstInput = inputs[0];
+                    const secondInput = inputs[1];
+
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        activeElement === firstInput ? secondInput.focus() : firstInput.focus();
+                        return;
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        activeElement === secondInput ? firstInput.focus() : secondInput.focus();
+                        return;
+                    }
+                }
+            }
+
+
+            if (e.target.tagName === 'INPUT') {
+
+            } else {
+
+                const isRulesOpen = document.getElementById('rulesModal')?.style.display === 'flex';
+                const isAuthorOpen = document.getElementById('authorModal')?.style.display === 'flex';
+                const certModal = document.getElementById('certificateModal');
+                const isCertOpen = certModal && certModal.style.display === 'flex';
+
+                if (!isRulesOpen && !isAuthorOpen && !isCertOpen) {
+                    const path = window.location.pathname;
+                    let currentNum = 1;
+
+                    if (path.includes('scanword2')) currentNum = 2;
+                    else if (path.includes('scanword3')) currentNum = 3;
+                    else if (path.includes('scanword4')) currentNum = 4;
+                    else if (path.includes('scanword5')) currentNum = 5;
+
+                    let targetNum = currentNum;
+
+                    if (e.key === 'ArrowRight' && currentNum < 5) {
+                        targetNum = currentNum + 1;
+                    } else if (e.key === 'ArrowLeft' && currentNum > 1) {
+                        targetNum = currentNum - 1;
+                    }
+
+                    if (targetNum !== currentNum) {
+                        const targetPage = targetNum === 1 ? 'index.html' : `scanword${targetNum}.html`;
+                        window.location.href = targetPage;
+                        return;
+                    }
+                }
+            }
+
+
+
+            if (e.target.tagName !== 'INPUT') {
+                typedString += e.key.toLowerCase();
+
+                if (typedString.length > secretWord.length) {
+                    typedString = typedString.slice(-secretWord.length);
+                }
+
+                if (typedString === secretWord) {
+                    typedString = '';
+
+                    if (typeof cells !== 'undefined' && typeof hiddenAnswers !== 'undefined') {
+                        cells.forEach((cell, index) => {
+                            if (hiddenAnswers.has(index)) {
+                                const encoded = hiddenAnswers.get(index);
+                                const originalAnswer = decodeURIComponent(atob(encoded));
+
+                                cell.value = originalAnswer;
+                                cell.classList.remove('correct', 'incorrect');
+                            }
+                        });
+
+                        if (typeof saveProgress === 'function') {
+                            saveProgress();
+                        }
+                    }
+                }
+            }
+        });
+
+        document.getElementById('btnClearScanword').addEventListener('click', () => {
+            if (confirm('Очистить все заполненные ответы этого сканворда?')) {
+                if (typeof cells !== 'undefined') {
+                    cells.forEach(cell => {
+                        cell.value = '';
+                        cell.classList.remove('correct', 'incorrect');
+                    });
+                }
+
+                const path = window.location.pathname;
+                let currentNum = 1;
+                if (path.includes('scanword2')) currentNum = 2;
+                else if (path.includes('scanword3')) currentNum = 3;
+                else if (path.includes('scanword4')) currentNum = 4;
+                else if (path.includes('scanword5')) currentNum = 5;
+
+                const keyName = currentNum === 1 ? 'scanword_1' : `scanword_${currentNum}`;
+                sessionStorage.removeItem(`scanword_completed_${keyName}`);
+                sessionStorage.removeItem(`scanword_secure_${keyName}`);
+
+                if (typeof saveProgress === 'function') {
+                    saveProgress();
+                }
+
+                if (typeof updateUserBadge === 'function') {
+                    updateUserBadge();
+                }
+            }
+        });
+
+        btnContinue.addEventListener('click', () => {
+            const profile = {
+                lastName: inputLastName.value.trim(),
+                firstName: inputFirstName.value.trim()
+            };
+            localStorage.setItem('user_profile', JSON.stringify(profile));
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            updateUserBadge();
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedProfile = localStorage.getItem('user_profile');
+            if (savedProfile) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+                updateUserBadge();
+            } else {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        });
     </script>
 </body>
 
