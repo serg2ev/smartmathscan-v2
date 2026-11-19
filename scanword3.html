@@ -539,7 +539,7 @@
         .mobile-sheet-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
             z-index: 9998;
             display: flex;
@@ -596,16 +596,22 @@
 
         .mobile-sheet-cancel {
             width: 100%;
-            min-height: 48px;
+            min-height: 46px;
             margin-top: 6px;
-            padding: 12px 16px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 8px;
             border: none;
-            background: rgba(255, 255, 255, 0.12);
+            background: #2ecc71;
             color: #fff;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s, opacity 0.2s;
+        }
+
+        .mobile-sheet-cancel:hover,
+        .mobile-sheet-cancel:active {
+            background: #27ae60;
         }
 
         @media (max-width: 600px) {
@@ -620,34 +626,59 @@
 
             .mobile-bottom-bar {
                 display: flex;
-                flex-wrap: wrap;
+                flex-wrap: nowrap;
                 align-items: center;
                 justify-content: space-between;
-                gap: 8px;
+                gap: 6px;
                 margin-top: 10px;
                 width: 100%;
                 box-sizing: border-box;
             }
 
             .mobile-bar-btn {
-                min-height: 42px;
-                padding: 9px 14px;
-                border-radius: 10px;
-                font-size: 14px;
+                min-height: 38px;
+                border-radius: 8px;
                 font-weight: bold;
                 cursor: pointer;
                 box-sizing: border-box;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
+                white-space: nowrap;
+                transition: background 0.2s, transform 0.1s;
+            }
+
+            .mobile-bar-btn:active {
+                transform: scale(0.97);
+            }
+
+            .mobile-clear-link {
+                background: none;
+                border: none;
+                color: #555;
+                text-decoration: underline;
+                font-size: 11px;
+                font-weight: 600;
+                padding: 6px 2px;
+                flex-shrink: 0;
+            }
+
+            .mobile-clear-link:hover,
+            .mobile-clear-link:active {
+                color: #fd9798;
             }
 
             #mobileUserBtn {
                 background: rgba(255, 255, 255, 0.95);
                 color: #111;
                 border: 1px solid rgba(0, 0, 0, 0.12);
+                font-size: 12px;
+                padding: 6px 8px;
                 flex: 1 1 auto;
+                min-width: 0;
                 max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             #mobileUserBtn.certificate-ready {
@@ -660,15 +691,9 @@
                 background: rgba(255, 255, 255, 0.95);
                 color: #111;
                 border: 1px solid rgba(0, 0, 0, 0.12);
-            }
-
-            .mobile-clear-link {
-                background: none;
-                border: none;
-                color: #555;
-                text-decoration: underline;
-                font-weight: 600;
-                padding: 8px 6px;
+                font-size: 12px;
+                padding: 6px 8px;
+                flex-shrink: 0;
             }
         }
     </style>
@@ -861,9 +886,9 @@
         </div>
 
         <div class="mobile-bottom-bar" id="mobileBottomBar">
-            <button type="button" id="mobileUserBtn" class="mobile-bar-btn" style="display: none;"></button>
             <button type="button" id="mobileClearBtn" class="mobile-bar-btn mobile-clear-link">Очистить
                 сканворд</button>
+            <button type="button" id="mobileUserBtn" class="mobile-bar-btn" style="display: none;"></button>
             <button type="button" id="mobileMoreBtn" class="mobile-bar-btn">Подробнее ▾</button>
         </div>
     </div>
@@ -1560,7 +1585,7 @@
                 try {
                     const profile = JSON.parse(savedProfile);
                     mobileUserBtn.textContent = `${profile.lastName} ${profile.firstName}`;
-                    mobileUserBtn.style.display = 'inline-flex';
+                    mobileUserBtn.style.display = '';
                     mobileUserBtn.classList.toggle('certificate-ready', checkAllScanwordsCompleted());
                 } catch (e) {
                     mobileUserBtn.style.display = 'none';

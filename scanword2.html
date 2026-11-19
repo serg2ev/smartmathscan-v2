@@ -532,10 +532,168 @@
             filter: brightness(0.9);
         }
 
+        .mobile-bottom-bar {
+            display: none;
+        }
+
+        .mobile-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .mobile-sheet-panel {
+            background: #1a1a2e;
+            color: #f0f2f5;
+            border-radius: 18px 18px 0 0;
+            padding: 20px 16px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-sizing: border-box;
+        }
+
+        .mobile-sheet-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #b0b3b8;
+            margin-bottom: 4px;
+        }
+
+        .mobile-sheet-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-sheet-item {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #16213e;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .mobile-sheet-item.certificate-ready {
+            color: #2ecc71;
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.15);
+        }
+
+        .mobile-sheet-cancel {
+            width: 100%;
+            min-height: 46px;
+            margin-top: 6px;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #2ecc71;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, opacity 0.2s;
+        }
+
+        .mobile-sheet-cancel:hover,
+        .mobile-sheet-cancel:active {
+            background: #27ae60;
+        }
+        
         @media (max-width: 600px) {
             .cell {
                 font-size: 3.8cqw;
+            }
 
+            .user-badge-container,
+            #btnClearScanword {
+                display: none !important;
+            }
+
+            .mobile-bottom-bar {
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 6px;
+                margin-top: 10px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .mobile-bar-btn {
+                min-height: 38px;
+                border-radius: 8px;
+                font-weight: bold;
+                cursor: pointer;
+                box-sizing: border-box;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+                transition: background 0.2s, transform 0.1s;
+            }
+
+            .mobile-bar-btn:active {
+                transform: scale(0.97);
+            }
+
+            .mobile-clear-link {
+                background: none;
+                border: none;
+                color: #555;
+                text-decoration: underline;
+                font-size: 11px;
+                font-weight: 600;
+                padding: 6px 2px;
+                flex-shrink: 0;
+            }
+
+            .mobile-clear-link:hover,
+            .mobile-clear-link:active {
+                color: #fd9798;
+            }
+
+            #mobileUserBtn {
+                background: rgba(255, 255, 255, 0.95);
+                color: #111;
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                font-size: 12px;
+                padding: 6px 8px;
+                flex: 1 1 auto;
+                min-width: 0;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #mobileUserBtn.certificate-ready {
+                animation: certificatePulse 2s infinite;
+                background: rgba(46, 204, 113, 0.18);
+                border-color: #2ecc71;
+            }
+
+            #mobileMoreBtn {
+                background: rgba(255, 255, 255, 0.95);
+                color: #111;
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                font-size: 12px;
+                padding: 6px 8px;
+                flex-shrink: 0;
             }
         }
     </style>
@@ -740,6 +898,21 @@
             <input type="text" maxlength="1" class="cell" data-top="92.96" data-left="86.65" data-width="13.00"
                 data-height="8.00" data-answer="Ш">
         </div>
+        
+        <div class="mobile-bottom-bar" id="mobileBottomBar">
+            <button type="button" id="mobileClearBtn" class="mobile-bar-btn mobile-clear-link">Очистить
+                сканворд</button>
+            <button type="button" id="mobileUserBtn" class="mobile-bar-btn" style="display: none;"></button>
+            <button type="button" id="mobileMoreBtn" class="mobile-bar-btn">Подробнее ▾</button>
+        </div>
+    </div>
+
+    <div id="mobileSheetModal" class="mobile-sheet-overlay" style="display: none;">
+        <div class="mobile-sheet-panel">
+            <div id="mobileSheetTitle" class="mobile-sheet-title">Меню</div>
+            <div id="mobileSheetActions" class="mobile-sheet-actions"></div>
+            <button type="button" id="mobileSheetClose" class="mobile-sheet-cancel">Закрыть</button>
+        </div>
     </div>
 
     <script>
@@ -766,10 +939,11 @@
 
             const nav = document.querySelector('.top-nav');
             const navHeight = nav ? nav.offsetHeight + 15 : 0;
-
+            const isMobile = window.innerWidth <= 600;
+            const mobileBarHeight = isMobile ? 62 : 0;
 
             const viewportWidth = (window.innerWidth || document.documentElement.clientWidth) - 20;
-            const viewportHeight = window.innerHeight - navHeight - 10;
+            const viewportHeight = Math.max(220, window.innerHeight - navHeight - mobileBarHeight - 15);
 
             const boardRatio = img.naturalWidth / img.naturalHeight;
             const viewportRatio = viewportWidth / viewportHeight;
@@ -1053,13 +1227,21 @@
         const btnCloseRules = document.getElementById('btnCloseRules');
         const authorModal = document.getElementById('authorModal');
         const btnCloseAuthor = document.getElementById('btnCloseAuthor');
+        const mobileUserBtn = document.getElementById('mobileUserBtn');
+        const mobileClearBtn = document.getElementById('mobileClearBtn');
+        const mobileMoreBtn = document.getElementById('mobileMoreBtn');
+        const mobileSheetModal = document.getElementById('mobileSheetModal');
+        const mobileSheetTitle = document.getElementById('mobileSheetTitle');
+        const mobileSheetActions = document.getElementById('mobileSheetActions');
+        const mobileSheetClose = document.getElementById('mobileSheetClose');
 
         function checkScrollUnlock() {
             const isWelcomeOpen = modal.style.display === 'flex';
             const isRulesOpen = rulesModal.style.display === 'flex';
             const isAuthorOpen = authorModal.style.display === 'flex';
+            const isSheetOpen = mobileSheetModal && mobileSheetModal?.style.display === 'flex';
 
-            if (!isWelcomeOpen && !isRulesOpen && !isAuthorOpen) {
+            if (!isWelcomeOpen && !isRulesOpen && !isAuthorOpen && !isSheetOpen) {
                 document.body.style.overflow = '';
             }
         }
@@ -1408,6 +1590,91 @@
             modal.style.display = 'none';
             document.body.style.overflow = '';
             updateUserBadge();
+        });
+        
+        function syncMobileBadge() {
+            if (!mobileUserBtn) return;
+            const savedProfile = localStorage.getItem('user_profile');
+            if (savedProfile) {
+                try {
+                    const profile = JSON.parse(savedProfile);
+                    mobileUserBtn.textContent = `${profile.lastName} ${profile.firstName}`;
+                    mobileUserBtn.style.display = '';
+                    mobileUserBtn.classList.toggle('certificate-ready', checkAllScanwordsCompleted());
+                } catch (e) {
+                    mobileUserBtn.style.display = 'none';
+                }
+            } else {
+                mobileUserBtn.style.display = 'none';
+            }
+        }
+
+        const originalUpdateUserBadge = updateUserBadge;
+        updateUserBadge = function () {
+            originalUpdateUserBadge();
+            syncMobileBadge();
+        };
+
+        function openMobileSheet(title, items) {
+            mobileSheetTitle.textContent = title;
+            mobileSheetActions.innerHTML = '';
+
+            items.forEach(item => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'mobile-sheet-item' + (item.ready ? ' certificate-ready' : '');
+                btn.textContent = item.label;
+                btn.addEventListener('click', () => {
+                    closeMobileSheet();
+                    item.onClick();
+                });
+                mobileSheetActions.appendChild(btn);
+            });
+
+            mobileSheetModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileSheet() {
+            mobileSheetModal.style.display = 'none';
+            checkScrollUnlock();
+        }
+
+        mobileUserBtn?.addEventListener('click', () => {
+            const isReady = checkAllScanwordsCompleted();
+            openMobileSheet(mobileUserBtn.textContent || 'Профиль', [
+                {
+                    label: 'Изменить фамилию и имя',
+                    onClick: () => btnChangeUser.click()
+                },
+                {
+                    label: 'Получить сертификат',
+                    ready: isReady,
+                    onClick: () => btnDownloadCert.click()
+                }
+            ]);
+        });
+
+        mobileMoreBtn?.addEventListener('click', () => {
+            openMobileSheet('Подробнее', [
+                {
+                    label: 'Правила',
+                    onClick: () => btnRules.click()
+                },
+                {
+                    label: 'Автор',
+                    onClick: () => btnAuthor.click()
+                }
+            ]);
+        });
+
+        mobileClearBtn?.addEventListener('click', () => {
+            document.getElementById('btnClearScanword')?.click();
+        });
+
+        mobileSheetClose?.addEventListener('click', closeMobileSheet);
+        mobileSheetModal?.addEventListener('click', (e) => {
+            if (e.target === mobileSheetModal) closeMobileSheet();
         });
 
         window.addEventListener('DOMContentLoaded', () => {
