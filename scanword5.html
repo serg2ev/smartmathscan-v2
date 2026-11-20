@@ -794,8 +794,8 @@
         <div class="user-badge-wrapper">
             <div id="userBadge" class="user-badge" style="display: none;"></div>
             <div id="userDropdown" class="user-dropdown">
-                <button id="btnChangeUser" class="user-dropdown-item">Изменить фамилию и имя</button>
                 <button id="btnDownloadCert" class="user-dropdown-item">Получить сертификат</button>
+                <button id="btnChangeUser" class="user-dropdown-item">Выйти</button>
             </div>
         </div>
 
@@ -1383,7 +1383,7 @@
 
         btnChangeUser.addEventListener('click', () => {
             userDropdown.classList.remove('show');
-            if (confirm('Сканворды очистятся. Продолжить?')) {
+            if (confirm('Вы сможете изменить фамилию и имя, но сканворды очистятся. Продолжить?')) {
                 Object.keys(sessionStorage).forEach(key => {
                     if (key.startsWith('scanword_progress_') || key.startsWith('scanword_completed_')) {
                         sessionStorage.removeItem(key);
@@ -1477,7 +1477,7 @@
                 certModal.style.display = 'flex';
 
             } else {
-                alert('Сертификат доступен только после успешной проверки всех сканвордов. Используйте кнопку "Проверить" на каждой странице сканворда, чтобы убедиться, что все ответы верны.');
+                alert('Сертификат недоступен. Сначала завершите все сканворды. Используйте кнопку "Проверить" на каждой странице сканворда, чтобы убедиться, что все ответы верны.');
             }
         });
 
@@ -1594,7 +1594,7 @@
         });
 
         document.getElementById('btnClearScanword').addEventListener('click', () => {
-            if (confirm('Очистить все заполненные ответы этого сканворда?')) {
+            if (confirm('Сканворд очистится. Продолжить?')) {
                 if (typeof cells !== 'undefined') {
                     cells.forEach(cell => {
                         cell.value = '';
@@ -1686,13 +1686,13 @@
             const isReady = checkAllScanwordsCompleted();
             openMobileSheet(mobileUserBtn.textContent || 'Профиль', [
                 {
-                    label: 'Изменить фамилию и имя',
-                    onClick: () => btnChangeUser.click()
-                },
-                {
                     label: 'Получить сертификат',
                     ready: isReady,
                     onClick: () => btnDownloadCert.click()
+                },
+                {
+                    label: 'Выйти',
+                    onClick: () => btnChangeUser.click()
                 }
             ]);
         });
