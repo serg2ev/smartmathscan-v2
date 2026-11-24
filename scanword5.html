@@ -8,16 +8,17 @@
     <style>
         .author-body {
             display: flex;
-            gap: 20px;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
         }
 
         .author-text {
-            flex: 1;
+            width: 100%;
             font-size: 13.5px;
             line-height: 1.5;
             color: #b0b3b8;
-            text-align: justify;
+            text-align: center;
         }
 
         .author-photo-container {
@@ -45,7 +46,7 @@
 
         @media (max-width: 480px) {
             .author-body {
-                flex-direction: column-reverse;
+                flex-direction: column;
                 align-items: center;
             }
 
@@ -535,7 +536,7 @@
         .check-btn:hover {
             filter: brightness(0.9);
         }
-        
+
         .mobile-bottom-bar {
             display: none;
         }
@@ -617,7 +618,7 @@
         .mobile-sheet-cancel:active {
             background: #27ae60;
         }
-        
+
         @media (max-width: 600px) {
             .cell {
                 font-size: 3.8cqw;
@@ -776,14 +777,13 @@
 
     <div id="authorModal" class="modal-overlay" style="display: none;">
         <div class="modal-content modal-author">
-            <h2>Иванов Иван Иванович</h2>
+            <h2>Михайлис Богдан</h2>
             <div class="author-body">
-                <div class="author-text">
-                    Разработчик сканвордов. Связаться с автором
-                    можно по электронной почте: example@mail.ru или через телеграм @username.
-                </div>
                 <div class="author-photo-container">
                     <img src="author.jpg" alt="Фото автора" class="author-photo">
+                </div>
+                <div class="author-text">
+                    Ученик 11-Б класса школы-лицея №53
                 </div>
             </div>
             <button id="btnCloseAuthor" class="modal-btn">Понятно</button>
@@ -941,7 +941,7 @@
             <input type="text" maxlength="1" class="cell" data-top="86.58" data-left="68.38" data-width="9.80"
                 data-height="11.50" data-answer="Д">
         </div>
-        
+
         <div class="mobile-bottom-bar" id="mobileBottomBar">
             <button type="button" id="mobileClearBtn" class="mobile-bar-btn mobile-clear-link">Очистить</button>
             <button type="button" id="mobileUserBtn" class="mobile-bar-btn" style="display: none;"></button>
@@ -1485,7 +1485,7 @@
         const secretWord = 'magic';
 
         document.addEventListener('keydown', (e) => {
-            
+
             if (e.key === 'Escape') {
                 if (typeof rulesModal !== 'undefined' && rulesModal.style.display === 'flex') {
                     closeRulesModal();
@@ -1498,10 +1498,10 @@
                     certModal.style.display = 'none';
                     document.body.style.overflow = '';
                 }
-                return; 
+                return;
             }
 
-            
+
             const welcomeModal = document.getElementById('welcomeModal');
             const isWelcomeOpen = welcomeModal && (
                 welcomeModal.style.display === 'flex' ||
@@ -1527,11 +1527,11 @@
                 }
             }
 
-            
+
             if (e.target.tagName === 'INPUT') {
-                
+
             } else {
-                
+
                 const isRulesOpen = document.getElementById('rulesModal')?.style.display === 'flex';
                 const isAuthorOpen = document.getElementById('authorModal')?.style.display === 'flex';
                 const certModal = document.getElementById('certificateModal');
@@ -1562,8 +1562,8 @@
                 }
             }
 
-            
-            
+
+
             if (e.target.tagName !== 'INPUT') {
                 typedString += e.key.toLowerCase();
 

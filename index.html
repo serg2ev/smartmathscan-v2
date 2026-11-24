@@ -8,16 +8,17 @@
     <style>
         .author-body {
             display: flex;
-            gap: 20px;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
         }
 
         .author-text {
-            flex: 1;
+            width: 100%;
             font-size: 13.5px;
             line-height: 1.5;
             color: #b0b3b8;
-            text-align: justify;
+            text-align: center;
         }
 
         .author-photo-container {
@@ -45,7 +46,7 @@
 
         @media (max-width: 480px) {
             .author-body {
-                flex-direction: column-reverse;
+                flex-direction: column;
                 align-items: center;
             }
 
@@ -745,24 +746,6 @@
                 font-size: 15px !important;
             }
         }
-
-        @media screen and (max-width: 600px), screen and (hover: none) and (pointer: coarse) and (max-height: 500px) {
-            .user-badge-container,
-            #btnClearScanword {
-                display: none !important;
-            }
-
-            .mobile-bottom-bar {
-                display: flex;
-                flex-wrap: nowrap;
-                align-items: center;
-                justify-content: space-between;
-                gap: 6px;
-                margin-top: 10px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-        }
     </style>
 </head>
 
@@ -790,14 +773,13 @@
 
     <div id="authorModal" class="modal-overlay" style="display: none;">
         <div class="modal-content modal-author">
-            <h2>Иванов Иван Иванович</h2>
+            <h2>Михайлис Богдан</h2>
             <div class="author-body">
-                <div class="author-text">
-                    Разработчик сканвордов. Связаться с автором
-                    можно по электронной почте: example@mail.ru или через телеграм @username.
-                </div>
                 <div class="author-photo-container">
                     <img src="author.jpg" alt="Фото автора" class="author-photo">
+                </div>
+                <div class="author-text">
+                    Ученик 11-Б класса школы-лицея №53
                 </div>
             </div>
             <button id="btnCloseAuthor" class="modal-btn">Понятно</button>
