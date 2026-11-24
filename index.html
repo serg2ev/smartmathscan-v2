@@ -696,6 +696,50 @@
                 padding: 6px 8px;
                 flex-shrink: 0;
             }
+
+            .modal-content.modal-author {
+                padding: 16px 14px;
+                gap: 10px;
+                align-items: center;
+                max-height: 88dvh;
+                overflow-y: auto;
+                box-sizing: border-box;
+            }
+
+            .modal-content.modal-author h2 {
+                text-align: center;
+                width: 100%;
+                font-size: 19px;
+                margin: 0;
+            }
+
+            .author-body {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .modal-content.modal-author .author-photo {
+                width: 220px;
+                height: 290px;
+                max-width: 100%;
+                display: block;
+            }
+
+            .author-text {
+                width: 100%;
+                max-width: 340px;
+                text-align: center;
+                margin: 0 auto;
+                font-size: 13px;
+                line-height: 1.4;
+            }
+
+            .modal-content.modal-author .modal-btn {
+                width: 100%;
+                padding: 10px 14px;
+            }
         }
 
         @media screen and (max-width: 600px) {
